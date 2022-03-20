@@ -9,11 +9,11 @@ const Home: NextPage = () => {
     }
 
     async function showClock(){
-        var nowTime = new Date();
-        var nowHour = nowTime.getHours();
-        var nowMin  = nowTime.getMinutes();
-        var nowSec  = nowTime.getSeconds();
-        var msg =  zeroPadding(nowHour, 2) + ":" + zeroPadding(nowMin, 2) + ":" + zeroPadding(nowSec, 2);
+        const nowTime = new Date();
+        const nowHour = nowTime.getHours();
+        const nowMin  = nowTime.getMinutes();
+        const nowSec  = nowTime.getSeconds();
+        const msg =  zeroPadding(nowHour, 2) + ":" + zeroPadding(nowMin, 2) + ":" + zeroPadding(nowSec, 2);
         setNowFullTime(msg);
     }
 
