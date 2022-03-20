@@ -1,18 +1,27 @@
 import type { NextPage } from 'next'
+import { useEffect, useState } from 'react';
 
 const Home: NextPage = () => {
-    // function zeroPadding(num,length){
-    //     return ('0' + num).slice(-length);
-    // }
-    // function showClock(){
-    //     var nowTime = new Date();
-    //     var nowHour = nowTime.getHours();
-    //     var nowMin  = nowTime.getMinutes();
-    //     var nowSec  = nowTime.getSeconds();
-    //     var msg =  zeroPadding(nowHour, 2) + ":" + zeroPadding(nowMin, 2) + ":" + zeroPadding(nowSec, 2) ;
-    //     document.getElementById("RealtimeClockArea").innerHTML = msg;
-    // }
-    // setInterval('showClock()',1000);
+    const [nowFullTime, setNowFullTime] = useState("")
+
+    function zeroPadding(num: number,length: number){
+        return ('0' + num).slice(-length);
+    }
+
+    async function showClock(){
+        var nowTime = new Date();
+        var nowHour = nowTime.getHours();
+        var nowMin  = nowTime.getMinutes();
+        var nowSec  = nowTime.getSeconds();
+        var msg =  zeroPadding(nowHour, 2) + ":" + zeroPadding(nowMin, 2) + ":" + zeroPadding(nowSec, 2);
+        setNowFullTime(msg);
+    }
+
+    useEffect(()=>{
+        setInterval(()=>{
+            showClock()
+        },1000);
+    },[]);
     
     
     // var array = []
@@ -31,7 +40,7 @@ const Home: NextPage = () => {
     <>
         <title>カップラーメンTimer</title>
         <div className="container">
-        <div className="clock" id="RealtimeClockArea"></div>
+        <div className="clock" id="RealtimeClockArea">{nowFullTime}</div>
         <div style={{textAlign: "center"}}>
             <input type="text" id="comment-field" value="調理開始" placeholder="コメントを入力してください"></input>
             <input type="button" value="ボタン"></input>
