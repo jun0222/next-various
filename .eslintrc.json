@@ -21,11 +21,8 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
-    // "prettier"
+    "some-other-config-you-use",
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": 0,
