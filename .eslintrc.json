@@ -21,7 +21,10 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "extends": [
-    "some-other-config-you-use",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
     "prettier"
   ],
   "rules": {
