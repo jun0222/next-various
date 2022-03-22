@@ -10,7 +10,8 @@
     "lint": "eslint --ext .jsx,.js,.tsx,.ts pages/**/*",
     "lint:fix": "eslint \"pages/**/*.{ts,tsx}\" --fix",
     "fmt": "prettier --write pages/**/*",
-    "test-all": "npx yarn-run-all lint check-types format lint:fix"
+    "test-all": "npx yarn-run-all lint check-types format lint:fix",
+    "lints": "yarn fmt && yarn lint:fix"
   },
   "dependencies": {
     "next": "12.1.0",
