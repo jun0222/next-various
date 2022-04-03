@@ -18,19 +18,31 @@ export const App = () => {
         const users = response.data.map((user) => ({
           id: user.id,
           name: user.name,
-          age: user.age,
         }))
+        setUserList(users)
       })
       .catch(() => {
         setIsError(true)
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
   return (
     <div>
       <button onClick={onClickFetchUser}>Fetch User</button>
-      {isLoading && <p>Loading...</p>}
+
       {isError && <p>Error!</p>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        userList.map((user) => (
+          <p key={user.id}>{`${user.id}${user.name}`}</p>
+        ))
+      )}
     </div>
   )
 }
+
+export default App
