@@ -1,3 +1,4 @@
+// モダンJavaScriptの基礎から始めるReact実践の教科書 p.249
 import { useState } from 'react'
 
 export const useFetchUsers = () => {
