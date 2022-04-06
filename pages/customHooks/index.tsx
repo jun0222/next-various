@@ -1,33 +1,14 @@
 // モダンJavaScriptの基本から始めるReact実践の教科書 p.245
 
 import { useState } from 'react'
-import axios from 'axios'
+import { useFetchUsers } from '../../hooks/useFetchUsers'
 
 export const App = () => {
-  const [userList, setUserList] = useState([])
+const {userList, onClickFetchUser} = useFetchUsers()
+console.log(userList)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
-  const onClickFetchUser = () => {
-    setIsLoading(true)
-    setIsError(false)
-
-    axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        const users = response.data.map((user) => ({
-          id: user.id,
-          name: user.name,
-        }))
-        setUserList(users)
-      })
-      .catch(() => {
-        setIsError(true)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
 
   return (
     <div>
