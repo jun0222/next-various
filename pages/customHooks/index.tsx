@@ -4,11 +4,10 @@ import { useState } from 'react'
 import { useFetchUsers } from '../../hooks/useFetchUsers'
 
 export const App = () => {
-const {userList, onClickFetchUser} = useFetchUsers()
-console.log(userList)
+  const { userList, onClickFetchUser } = useFetchUsers()
+  console.log(userList)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
-
 
   return (
     <div>
@@ -18,9 +17,7 @@ console.log(userList)
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        userList.map((user) => (
-          <p key={user.id}>{`${user.id}${user.name}`}</p>
-        ))
+        userList.map((user) => <p key={user.id}>{`${user.id}${user.name}`}</p>)
       )}
     </div>
   )
