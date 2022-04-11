@@ -11,5 +11,23 @@ export const useFetchUsers = () => {
     setError(false)
   }
 
-  return { userList, onClickFetchUser }
+  axios
+  .get('https://jsonplaceholder.typicode.com/users')
+  .then(result => {
+    const users = result.data.map(user => {
+      id: user.id,
+      name: user.name,
+      age: user.age
+    })
+
+    setUserList(users)
+  })
+  .catch(error => {
+    setError(true)
+  })
+  .finally(() => {
+    setLoading(false)
+  })
+
+  return { userList, loading, error, onClickFetchUser }
 }
