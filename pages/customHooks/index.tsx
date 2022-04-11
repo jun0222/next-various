@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useFetchUsers } from '../../hooks/useFetchUsers'
 
 export const App = () => {
-  const { userList, onClickFetchUser } = useFetchUsers()
-  console.log(userList)
+  const { userList, loading, error, onClickFetchUser } = useFetchUsers()
+
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
