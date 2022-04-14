@@ -10,8 +10,8 @@ export const App = () => {
       const newGreeting = str
       setGreeting(newGreeting)
     }
-  }, [str])
-  //   }, []) // だとhot reload時にしか動かない
+//   }, [str])
+    }, []) // だとhot reload時にしか動かない
 
   return (
     <div>
