@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 type Props = {
-  setAnimalName: React.Dispatch<React.SetStateAction<string>>
+  setAnimalName: (name: string)=>void // https://zenn.dev/dev63/articles/ae0f9f893dac64#comment-3f1e2ef850eddd
 }
 
 export const Child = ({ setAnimalName }: Props) => {
