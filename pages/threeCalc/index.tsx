@@ -1,11 +1,12 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 export const App = () => {
   const [bool, setBool] = useState(false)
-  return bool?(
-    <div>true</div>
-  ) : (
-    <div>false</div>
+  return (
+    <div>
+      <button onClick={() => setBool(!bool)}>true/false</button>
+      {bool ? <p>true</p> : <p>false</p>}
+    </div>
   )
 }
 
