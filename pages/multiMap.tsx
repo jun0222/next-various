@@ -9,16 +9,22 @@ export const App = () => {
   const members = [
     { hoby: 'football', name: 'Taro', team: 1 },
     { hoby: 'ayatori', name: 'Jiro', team: 3 },
+    { hoby: 'work', name: 'Ken', team: 3 },
   ]
-// このままフラグメントで展開する場合
+  // このままフラグメントで展開する場合
   const [teamName, setTeamName] = useState('')
   return (
     <>
       {teams.map((team, index) => (
         // このままフラグメントで展開する場合
         <React.Fragment key={index}>
-          <h1>team {team}</h1>
-          <p>team {teamName}</p>
+          {members.some((member) => {
+            return member.team === team
+          }) && (
+            <>
+              <h1>team {team}</h1>
+            </>
+          )}
           <div>
             {members.map((member, index) => (
               <Child

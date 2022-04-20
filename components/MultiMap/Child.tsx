@@ -10,13 +10,13 @@ type Props = {
   setTeamName: (title: string) => void
 }
 
-export const Child = ({ member, setTeamName }: Props) => {
-  useEffect(() => {
-      const newTeamName = `レベル${member.team}`
-      setTeamName(newTeamName)
-  }, [])
+export const Child = ({ team,member, setTeamName }: Props) => {
+//   useEffect(() => {
+//     const newTeamName = `レベル${member.team}`
+//     setTeamName(newTeamName)
+//   }, [])
 
-  return <div></div>
+  return <div>{member.team === team && member.name}</div>
 }
 
 export default Child
