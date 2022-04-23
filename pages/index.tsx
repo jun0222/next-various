@@ -1,9 +1,21 @@
+import axios from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import React from 'react'
+import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
+import getPagesPaths from './api/getPagesPaths'
 
 const Home: NextPage = () => {
+  const [pages, setPages] = React.useState([])
+  useEffect(() => {
+    async function getPagesPaths() {
+      const { data } = await axios.get('/api/getPagesPaths')
+      setPages(data.paths)
+    }
+    getPagesPaths()
+  }, [])
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +31,14 @@ const Home: NextPage = () => {
 
         <p className={styles.description}>
           todo:このあたりに全部のpages/へのリンクを自動生成する。
+          <div className={styles.grid}>
+          {pages.map((page) => (
+            <a key={page} href={page} className={styles.card}>
+              <h2>{page} &rarr;</h2>
+              <p>説明文</p>
+            </a>
+          ))}
+          </div>
         </p>
 
         <div className={styles.grid}>
