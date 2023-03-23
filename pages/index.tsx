@@ -25,28 +25,15 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          文字列の中に <a href="https://nextjs.org">リンク</a>
-        </h1>
-
         <p className={styles.description}>
-          todo:このあたりに全部のpages/へのリンクを自動生成する。
           <div className={styles.grid}>
-          {pages.map((page) => (
-            <a key={page} href={page} className={styles.card}>
-              <h2>{page} &rarr;</h2>
-              <p>説明文</p>
-            </a>
-          ))}
+            {pages.map((page) => (
+              <a key={page} href={page} className={styles.card}>
+                <h2>{page} &rarr;</h2>
+              </a>
+            ))}
           </div>
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org" className={styles.card}>
-            <h2>リンク &rarr;</h2>
-            <p>リンクの説明文</p>
-          </a>
-        </div>
       </main>
 
       <footer className={styles.footer}>
