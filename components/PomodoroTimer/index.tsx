@@ -22,6 +22,7 @@ const PomodoroTimer: React.FC = () => {
       setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
           if (prevTimeLeft <= 1) {
+            alert('Time is up!')
             clearInterval(timer as NodeJS.Timeout)
             setIsRunning(false)
             return 25 * 60
