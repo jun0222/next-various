@@ -73,6 +73,7 @@ function MindMap() {
 
   return (
     <div>
+      <title>マインドマップ</title>
       <input
         type="text"
         value={inputValue}

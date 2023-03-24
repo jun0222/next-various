@@ -60,6 +60,7 @@ const CsvViewer = () => {
 
   return (
     <div className={styles.body}>
+      <title>CSVビューワー</title>
       <div className={styles.container}>
         <h1 className={styles.h1}>CSV Viewer</h1>
         <form>

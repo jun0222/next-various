@@ -28,6 +28,7 @@ const Timer = () => {
 
   return (
     <div className={styles['timer-container']}>
+      <title>タイマー</title>
       <h1>Timer: {seconds}</h1>
       <input
         className={styles['timer-input']}

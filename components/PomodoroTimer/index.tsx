@@ -51,6 +51,7 @@ const PomodoroTimer: React.FC = () => {
 
   return (
     <div className={styles.center}>
+      <title>Pomodoro Timer</title>
       <h1>Pomodoro Timer</h1>
       <div className={styles.timer}>{formatTime(timeLeft)}</div>
       <div className={styles.buttons}>
