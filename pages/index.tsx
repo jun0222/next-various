@@ -5,7 +5,7 @@ import Image from 'next/image'
 import React from 'react'
 import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
-import getPagesPaths from './api/getPagesPaths'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   const [pages, setPages] = React.useState([])
@@ -28,9 +28,11 @@ const Home: NextPage = () => {
         <p className={styles.description}>
           <div className={styles.grid}>
             {pages.map((page) => (
-              <a key={page} href={page} className={styles.card}>
-                <h2>{page} &rarr;</h2>
-              </a>
+              <div key={page} className={styles.card}>
+                <Link key={page} href={page}>
+                  <h2>{page} &rarr;</h2>
+                </Link>
+              </div>
             ))}
           </div>
         </p>
