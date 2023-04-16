@@ -15,7 +15,7 @@ const MyForm = () => {
   })
 
   const onSubmit = (data: FormData) => {
-    console.log(data)
+    alert(`送信した内容: ${data.inputField}`)
   }
 
   return (
