@@ -1,136 +1,151 @@
-import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+// 必要なReactとreact-hook-formの機能をインポートします。
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-// APIからのレスポンスを表すインターフェースを定義します。
-interface ApiResponse {
-  data: any
+// フォームデータの型を定義します。
+type FormData = {
+  // フォームデータのフィールドとその型をここに定義します。
 }
 
-// 初期APIリクエストを行い、そのレスポンスを元にポーリングを行う関数を定義します。
-// これがコンポーネント外部で呼び出す唯一の関数となります。
-const usePollingFromApi = () => {
-  // フォームデータを管理するためにreact-hook-formを使用します。
-  const { handleSubmit } = useForm()
+// 最初にフェッチするデータの型を定義します。
+type InitialData = {
+  userId: number
+  id: number
+  title: string
+  body: string
+}
 
-  // APIからの初期データ、ポーリングデータ、およびエラーを管理するためのステートを定義します。
-  const [initialData, setInitialData] = useState<ApiResponse | null>(null)
-  const [pollData, setPollData] = useState<ApiResponse | null>(null)
-  const [initialError, setInitialError] = useState<string | null>(null)
+// ポーリングで取得するデータの型を定義します。
+type PollData = {
+  userId: number
+  id: number
+  title: string
+  body: string
+}
+
+// ポーリングのカスタムフックを定義します。これは最初に取得したデータを引数にとります。
+function usePolling(initialData: InitialData | null) {
+  // ポーリングで取得したデータとエラー、そしてローディング状態を保持するためのステートを定義します。
+  const [pollData, setPollData] = useState<PollData | null>(null)
   const [pollError, setPollError] = useState<string | null>(null)
-
-  // ローディング状態を管理するためのステートを定義します。
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  // ポーリングのsetIntervalを管理するためのrefを定義します。
-  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  // submitの処理を定義します。ここでは、まず初期APIリクエストを行い、その後でポーリングを行います。
-  const onSubmit = handleSubmit(async () => {
-    setIsLoading(true)
-
-    // 初期APIリクエストを行います。
-    try {
-      const response = await axios.get<ApiResponse>(
-        'https://jsonplaceholder.typicode.com/todos/1',
-      )
-      setInitialData(response.data)
-      setInitialError(null)
-    } catch (error: any) {
-      setInitialError(error.message)
-      setIsLoading(false)
-      return
-    }
-
-    // ポーリングを開始します。useEffectではなくここでポーリングを開始しています。
-    let pollAttempts = 0
-
-    pollIntervalRef.current = setInterval(async () => {
-      try {
-        const response = await axios.get<ApiResponse>(
-          // 'https://jsonplaceholder.typicode.com/todos/1',
-          'localhost:30000/error',
-        )
-        setPollData(response.data)
-        setPollError(null)
-        pollAttempts = 0
-
-        // ポーリングのレスポンスが期待する値であれば、ポーリングを停止します。
-        // ここでは、レスポンスデータが正しく存在するかどうかをチェックします。
-        // 実際のコードでは、ここで具体的な条件を指定する必要があります。
-        if (response.data) {
-          clearInterval(pollIntervalRef.current as NodeJS.Timeout)
-          setIsLoading(false)
-        }
-      } catch (error: any) {
-        pollAttempts++
-
-        // 3回連続でポーリングが失敗した場合、エラーを表示します。
-        if (pollAttempts >= 3) {
-          setPollError(error.message)
-          clearInterval(pollIntervalRef.current as NodeJS.Timeout)
-          setIsLoading(false)
-        }
-      }
-    }, 1000)
-  })
-
+  // useEffectフックを使用してポーリングのロジックを実装します。
   useEffect(() => {
-    return () => {
-      if (pollIntervalRef.current) {
-        clearInterval(pollIntervalRef.current)
+    let intervalId: NodeJS.Timeout | null = null
+    let attempts = 0
+    const maxAttempts = 3
+
+    // ポーリングのための非同期関数を定義します。
+    const poll = async () => {
+      // ポーリングが始まったことを示すためにローディング状態をtrueにします。
+      setIsLoading(true)
+      try {
+        // 最初に取得したデータのIDを元にAPIリクエストを送ります。
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/posts/${initialData?.id}`,
+        )
+
+        // レスポンスが正常でなければエラーをスローします。
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+
+        // レスポンスからデータを取得します。
+        const data: PollData = await response.json()
+        // 取得したデータをステートに保存します。
+        setPollData(data)
+        // ポーリングが終了したことを示すためにローディング状態をfalseにします。
+        setIsLoading(false)
+        // ポーリングを停止します。
+        if (intervalId) {
+          clearInterval(intervalId)
+        }
+      } catch (error) {
+        // ポーリングでエラーが発生した場合、試行回数を増やします。
+        attempts++
+        // 試行回数が設定した最大値に達した場合、エラーメッセージをステートに保存してポーリングを停止します。
+        if (attempts === maxAttempts) {
+          setPollError(
+            'Error: failed to fetch poll data after ' +
+              maxAttempts +
+              ' attempts',
+          )
+          setIsLoading(false)
+          if (intervalId) {
+            clearInterval(intervalId)
+          }
+        }
       }
     }
-  }, [])
 
-  return { onSubmit, initialData, pollData, initialError, pollError, isLoading }
+    // 最初に取得したデータがあればポーリングを開始します。
+    if (initialData) {
+      intervalId = setInterval(poll, 1000)
+    }
+
+    // コンポーネントがアンマウントされるか、最初に取得したデータが変わったときにポーリングを停止します。
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [initialData]) // 依存性配列に最初に取得したデータを入れます。これにより、最初のデータが変わったときにuseEffect内のコードが再実行されます。
+
+  // ポーリングの結果と状態を返します。
+  return { pollData, pollError, isLoading }
 }
 
-// 実際のコンポーネントです。
-const MyComponent: React.FC = () => {
-  const {
-    onSubmit,
-    initialData,
-    pollData,
-    initialError,
-    pollError,
-    isLoading,
-  } = usePollingFromApi()
+// コンポーネントを定義します。
+const YourComponent: React.FC = () => {
+  // react-hook-formの機能をセットアップします。
+  const { register, handleSubmit } = useForm<FormData>()
+  // 最初に取得するデータとそのエラーを保持するためのステートを定義します。
+  const [initialData, setInitialData] = useState<InitialData | null>(null)
+  const [initialError, setInitialError] = useState<string | null>(null)
+  // ポーリングのカスタムフックを使用します。
+  const { pollData, pollError, isLoading } = usePolling(initialData)
 
+  // フォームの送信時のハンドラを定義します。
+  const onSubmit = async (formData: FormData) => {
+    try {
+      // 最初のAPIリクエストを送ります。
+      const response = await fetch(
+        'https://jsonplaceholder.typicode.com/posts/1',
+      )
+
+      // レスポンスが正常でなければエラーをスローします。
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+
+      // レスポンスからデータを取得します。
+      const data: InitialData = await response.json()
+      // 取得したデータをステートに保存します。
+      setInitialData(data)
+    } catch (error) {
+      // APIリクエストでエラーが発生した場合、エラーメッセージをステートに保存します。
+      setInitialError('Error: failed to fetch initial data')
+    }
+  }
+
+  // コンポーネントのレンダリングを行います。
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <button type="submit" disabled={isLoading}>
-          Submit
-        </button>
-      </form>
-      {isLoading && <p>Loading...</p>}
-      {initialError && <p>Error: {initialError}</p>}
-      {pollError && <p>Error: {pollError}</p>}
-      {initialData && <p>Initial Data: {JSON.stringify(initialData)}</p>}
-      {pollData && <p>Poll Data: {JSON.stringify(pollData)}</p>}
-    </div>
+    // フォームをレンダリングします。送信時にonSubmitハンドラが呼ばれます。
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* フォームフィールドをレンダリングします。 */}
+      {/* ポーリングが進行中であればボタンは無効化されます。 */}
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Start Polling'}
+      </button>
+      {/* エラーメッセージがあれば表示します。 */}
+      {initialError && <div>Error: {initialError}</div>}
+      {pollError && <div>Error: {pollError}</div>}
+      {/* ポーリングで取得したデータがあれば表示します。 */}
+      {pollData && <div>Result: {JSON.stringify(pollData)}</div>}
+    </form>
   )
 }
 
-export default MyComponent
-
-// オーダー
-// ・動作を確認するから実装してほしい
-// ・pollingでsetinterval使って欲しい
-// ・あけてくれているところも仮でデータ入れて。
-// ・ポーリングはuseEffectじゃ無理？特に問題なさそうならuseeffectして欲しい。
-// ・先に別のapiを叩いて、帰ってきたレスポンスをpollの引数として渡し、pollから投げるリクエストに入れたいし、typescriptにも対応していて欲しい。
-// ・apiリクエストからpollingの実行という一連の動作はreact-hook-formのsubmitを実行した時にしてほしい。
-// ・ポーリング処理はカスタムフッっくとして実装してほしい
-// ・あと1秒毎のポーリングで3回叩いてダメならエラーにして画面に表示してほしい
-// ・URLはJsonplaceholderにして
-// ・3回失敗したらエラーメッセージ出すだけじゃなくてリトライしないで
-// ・ポーリング中はローディング中...と表示して、submit押せないようにしてほしい。で、終わったら解除してほしい
-// ・setintervalはuseRefで管理してほしい
-// ・初回レンダリング時はuseEffectを実行しないようにしてほしい
-// ・ポーリングする関数は別apiを呼び出して、そのレスポンスを引数にして呼び出す関数から呼び出してほしい。コンポーネントからはその関数を呼び出すだけでいいようにしてほしい。
-// ・全行に解説のコメントを書いてほしい
-// ・コメントアウトつけるつけないで簡単にAPIエラー時の挙動を見られるようにしてほしい
-// ・ポーリングして欲しい値が取れたらポーリングを止めてほしい
-// ・fetchでapi叩いて欲しい
+// コンポーネントをエクスポートします。
+export default YourComponent
