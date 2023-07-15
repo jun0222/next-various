@@ -13,3 +13,10 @@
 # getServerSideProps と API handler
 
 ![picture 3](images/0c2942e6849b388b7ae05f8633fd530b52e80349e107875967eabd070cf2a6f4.png)
+
+# test 実行コマンド
+
+```bash
+# tsconfig.jsonが"jsx": "react"でないとエラーになる
+yarn jest
+```
