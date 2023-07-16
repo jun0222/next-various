@@ -20,6 +20,10 @@
 # tsconfig.jsonが"jsx": "react"でないとエラーになるので、tsconfig.test.jsonで対応
 yarn jest
 
+# カバレッジレポートを見たい場合はこうする
+yarn jest -- --coverage
+```
+
 # OpenAPI Generator typescript-fetch 導入
 
 ## 参考記事
