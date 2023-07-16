@@ -19,4 +19,17 @@
 ```bash
 # tsconfig.jsonが"jsx": "react"でないとエラーになるので、tsconfig.test.jsonで対応
 yarn jest
+
+# OpenAPI Generator typescript-fetch 導入
+
+## 参考記事
+
+[https://zenn.dev/erukiti/articles/openapi-generator-typescript-fetch](https://zenn.dev/erukiti/articles/openapi-generator-typescript-fetch)
+
+## コマンド
+
+```bash
+yarn add -D @openapitools/openapi-generator-cli
+npm install @openapitools/openapi-generator-cli -g
+openapi-generator-cli generate -g typescript-fetch -i openapi/typescript-fetch.yaml  -o openapi/client --additional-properties=modelPropertyNaming=camelCase,supportsES6=true,withInterfaces=true,typescriptThreePlus=true
 ```
