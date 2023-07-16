@@ -8,7 +8,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   globals: {
     'ts-jest': {
-      tsconfig: 'tsconfig.json', // TODO: テスト用のtsconfigを作成し、compilerOptionsをreact設定する。アプリ側はpreserve。
+      tsconfig: 'tsconfig.test.json', // TODO: テスト用のtsconfigを作成し、compilerOptionsをreact設定する。アプリ側はpreserve。
       diagnostics: false,
     },
   },

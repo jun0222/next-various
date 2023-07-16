@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <p className={styles.description}>
+        <div className={styles.description}>
           <div className={styles.grid}>
             {pages.map((page) => (
               <div key={page} className={styles.card}>
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
               </div>
             ))}
           </div>
-        </p>
+        </div>
       </main>
 
       <footer className={styles.footer}>

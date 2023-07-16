@@ -6,7 +6,7 @@ import Checkbox from '.'
 
 // Checkbox コンポーネントのテスト
 describe('Checkbox', () => {
-  describe('チェックをつける', () => {
+  describe('チェックをつけるテスト', () => {
     it('チェックをつける', () => {
       const { getByTestId } = render(<Checkbox />)
       const checkbox = getByTestId('checkbox')
@@ -22,8 +22,7 @@ describe('Checkbox', () => {
     })
   })
 
-  // 新しいレンダリングでチェックがついていないことを確認するテスト
-  describe('新しいレンダリングでチェックがついていない', () => {
+  describe('クリーンアップのテスト', () => {
     it('新しいレンダリングでチェックがついていない', () => {
       const { getByTestId } = render(<Checkbox />)
       const checkbox = getByTestId('checkbox')
@@ -33,7 +32,7 @@ describe('Checkbox', () => {
     })
   })
 
-  describe('チェックをつけてから外す', () => {
+  describe('チェックをつけてから外すテスト', () => {
     it('チェックをつけてから外す', () => {
       const { getByTestId } = render(<Checkbox />)
       const checkbox = getByTestId('checkbox')

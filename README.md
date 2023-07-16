@@ -17,6 +17,6 @@
 # test 実行コマンド
 
 ```bash
-# tsconfig.jsonが"jsx": "react"でないとエラーになる
+# tsconfig.jsonが"jsx": "react"でないとエラーになるので、tsconfig.test.jsonで対応
 yarn jest
 ```
