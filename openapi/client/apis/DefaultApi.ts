@@ -22,6 +22,10 @@ import {
     UserToJSON,
 } from '../models';
 
+export interface FilesFilenameDownloadGetRequest {
+    filename: string;
+}
+
 export interface UsersUserIdGetRequest {
     userId: string;
 }
@@ -33,6 +37,21 @@ export interface UsersUserIdGetRequest {
  * @interface DefaultApiInterface
  */
 export interface DefaultApiInterface {
+    /**
+     * 
+     * @summary Download a file
+     * @param {string} filename 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApiInterface
+     */
+    filesFilenameDownloadGetRaw(requestParameters: FilesFilenameDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>>;
+
+    /**
+     * Download a file
+     */
+    filesFilenameDownloadGet(requestParameters: FilesFilenameDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
+
     /**
      * 
      * @summary Get a user by ID
@@ -54,6 +73,36 @@ export interface DefaultApiInterface {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
+
+    /**
+     * Download a file
+     */
+    async filesFilenameDownloadGetRaw(requestParameters: FilesFilenameDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        if (requestParameters.filename === null || requestParameters.filename === undefined) {
+            throw new runtime.RequiredError('filename','Required parameter requestParameters.filename was null or undefined when calling filesFilenameDownloadGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/files/{filename}/download`.replace(`{${"filename"}}`, encodeURIComponent(String(requestParameters.filename))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     * Download a file
+     */
+    async filesFilenameDownloadGet(requestParameters: FilesFilenameDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.filesFilenameDownloadGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Get a user by ID

@@ -1,4 +1,3 @@
-# OpenAPI Generator typescript-fetch
 openapi: 3.0.0
 info:
   title: Sample API
@@ -22,6 +21,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /files/{filename}/download:
+    get:
+      summary: Download a file
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The file to download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     User:
