@@ -7,18 +7,14 @@ const apiClient = new DefaultApi(
 
 // TODO: これをapi routesに書いて実際にDLできるようにする
 async function downloadFile(filename: string) {
-  console.log('====downloadFile======')
   try {
     const response = await apiClient.filesFilenameDownloadGet({ filename })
-    // const url = window.URL.createObjectURL(new Blob([response]))
-    // const link = document.createElement('a')
-    // link.href = url
-    // link.setAttribute('download', filename)
-    // document.body.appendChild(link)
-    // link.click()
-    console.log('filename', filename)
-    console.log('response', response)
-    return response // TODO: api routesに書いたらここは消す
+    const url = window.URL.createObjectURL(new Blob([response]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', filename)
+    document.body.appendChild(link)
+    link.click()
   } catch (error) {
     console.error(error)
   }
@@ -44,7 +40,6 @@ const FileList = () => {
       alert('Please select at least one file to download.')
       return
     }
-    console.log('====handleDownloadClick======')
     selectedFiles.forEach((filename) => downloadFile(filename))
   }
 
