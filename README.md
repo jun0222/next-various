@@ -1,3 +1,30 @@
+<!-- TOC -->
+
+- [Next.js 全部盛りリポジトリ](#nextjs-全部盛りリポジトリ)
+- [SSR と CSR について](#ssr-と-csr-について)
+  - [解説](#解説)
+  - [参考](#参考)
+- [getServerSideProps と API handler](#getserversideprops-と-api-handler)
+- [test 実行コマンド](#test-実行コマンド)
+- [OpenAPI Generator typescript-fetch 導入](#openapi-generator-typescript-fetch-導入)
+  - [参考記事](#参考記事)
+  - [コマンド](#コマンド)
+- [エラー](#エラー)
+  - [filedownload のテストコードを書くとき Error: Not implemented: navigation になる](#filedownload-のテストコードを書くとき-error-not-implemented-navigation-になる)
+  - [expect(jest.fn()).toHaveBeenCalled()となり、mock が呼ばれずテストが失敗する](#expectjestfntohavebeencalledとなりmock-が呼ばれずテストが失敗する)
+
+<!-- /TOC -->
+
+# Next.js 全部盛りリポジトリ
+
+Next.js のなんでも検証用リポジトリ
+
+- 個人用ツール
+- ライブラリの動作確認
+- 実装試しうち
+- 設計(必要ならブランチごとにかえる、その場合別ブランチは継続運用するというより単一の変更を試すために使う。色々合わせた確認がしたいならそれ用に作る)
+- 試したソースコードなどにコメントや、ドキュメントを細かくつけて再利用可能にする
+
 # SSR と CSR について
 
 ## 解説
@@ -18,10 +45,16 @@
 
 ```bash
 # tsconfig.jsonが"jsx": "react"でないとエラーになるので、tsconfig.test.jsonで対応
-yarn jest
+yarn test
+
+# jest --clearCacheでキャッシュ削除
+yarn test:clear-cache
 
 # カバレッジレポートを見たい場合はこうする
-yarn jest -- --coverage
+yarn test -- --coverage
+
+# package.jsonで設定したカバレッジレポート出力
+yarn test:coverage
 ```
 
 # OpenAPI Generator typescript-fetch 導入
@@ -36,4 +69,36 @@ yarn jest -- --coverage
 yarn add -D @openapitools/openapi-generator-cli
 npm install @openapitools/openapi-generator-cli -g
 openapi-generator-cli generate -g typescript-fetch -i openapi/typescript-fetch.yaml  -o openapi/client --additional-properties=modelPropertyNaming=camelCase,supportsES6=true,withInterfaces=true,typescriptThreePlus=true
+```
+
+# エラー
+
+## filedownload のテストコードを書くとき Error: Not implemented: navigation になる
+
+createElement で作る a タグのイベント click で window.location.href 　が実行されておきるエラー。
+直接 window.location を mock しても意味がない。
+
+```ts
+global.URL.createObjectURL = jest.fn()
+HTMLAnchorElement.prototype.click = jest.fn()
+```
+
+- https://qiita.com/shiho_hoshino/items/f109362314756a556922
+- https://www.appsloveworld.com/reactjs/100/32/jest-error-not-implemented-navigation-except-hash-changes-when-click-event-i
+
+## expect(jest.fn()).toHaveBeenCalled()となり、mock が呼ばれずテストが失敗する
+
+コンポーネントの外で、mock したい関数が定義されていたことが原因。
+以下のような状況だった。ライフサイクル系の問題だと思われるので、その他不明なエラーが起きたときは、
+雑に一旦コンポーネント外で記述したりして放置していないか確認する。
+React の思想に反するので。
+
+```ts
+await waitFor(() => {
+  // こっちは成功する
+  expect(DefaultApi).toHaveBeenCalled()
+
+  // こっちはエラー
+  expect(mockFilesFilenameDownloadGet).toHaveBeenCalled()
+})
 ```

@@ -4,13 +4,15 @@ import '@testing-library/jest-dom/extend-expect'
 import UserPage from '.' // Assuming UserPage is in the same directory
 
 // Mocking the API call
+const mockUsersUserIdGet = jest.fn().mockResolvedValue({
+  id: 1,
+  name: 'Test User',
+  email: 'test@test.com',
+})
+
 jest.mock('../../openapi/client', () => ({
   DefaultApi: jest.fn().mockImplementation(() => ({
-    usersUserIdGet: jest.fn().mockResolvedValue({
-      id: 1,
-      name: 'Test User',
-      email: 'test@test.com',
-    }),
+    usersUserIdGet: mockUsersUserIdGet,
   })),
   Configuration: jest.fn(),
 }))
@@ -28,5 +30,6 @@ describe('UserPage', () => {
     // Now we can check for the user information
     expect(screen.getByText(/Test User/i)).toBeInTheDocument()
     expect(screen.getByText(/test@test.com/i)).toBeInTheDocument()
+    await waitFor(() => expect(mockUsersUserIdGet).toHaveBeenCalled())
   })
 })
