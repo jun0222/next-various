@@ -12,6 +12,7 @@
 - [エラー](#エラー)
   - [filedownload のテストコードを書くとき Error: Not implemented: navigation になる](#filedownload-のテストコードを書くとき-error-not-implemented-navigation-になる)
   - [expect(jest.fn()).toHaveBeenCalled()となり、mock が呼ばれずテストが失敗する](#expectjestfntohavebeencalledとなりmock-が呼ばれずテストが失敗する)
+  - ['render()' によって返された型は、これらの型同士で互換性がありません。](#render-によって返された型はこれらの型同士で互換性がありません)
 
 <!-- /TOC -->
 
@@ -101,4 +102,14 @@ await waitFor(() => {
   // こっちはエラー
   expect(mockFilesFilenameDownloadGet).toHaveBeenCalled()
 })
+```
+
+## 'render()' によって返された型は、これらの型同士で互換性がありません。
+
+`'render()' によって返された型は、これらの型同士で互換性がありません。 型 'React.ReactNode' を型 'import("/Users/username/Desktop/products/next-various/node_modules/@types/react-dom/node_modules/@types/react/index").ReactNode' に割り当てることはできません。 型 '{}' を型 'ReactNode' に割り当てることはできません。ts(2786)`
+
+```bash
+# 以下で依存関係を解決すると解消
+yarn add @types/react
+yarn add @types/react-dom
 ```

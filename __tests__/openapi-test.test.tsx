@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import UserPage from '.' // Assuming UserPage is in the same directory
+import UserPage from '../pages/openapi-test'
 
 // Mocking the API call
 const mockUsersUserIdGet = jest.fn().mockResolvedValue({
@@ -10,7 +10,7 @@ const mockUsersUserIdGet = jest.fn().mockResolvedValue({
   email: 'test@test.com',
 })
 
-jest.mock('../../openapi/client', () => ({
+jest.mock('../openapi/client', () => ({
   DefaultApi: jest.fn().mockImplementation(() => ({
     usersUserIdGet: mockUsersUserIdGet,
   })),

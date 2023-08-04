@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import ApiAddHeader, { configuration } from '.'
-import { DefaultApi } from '../../openapi/client'
+import { DefaultApi } from '../openapi/client'
+import ApiAddHeader, { configuration } from '../pages/apiAddHeader'
 
 // モックデータ
 const mockResponse = {

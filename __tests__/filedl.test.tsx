@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import FileList from '.'
-import { DefaultApi } from '../../openapi/client'
+import { DefaultApi } from '../openapi/client'
+import FileList from '../pages/filedl'
 
 // fileのダウンロードをモックする
 global.URL.createObjectURL = jest.fn()
@@ -11,7 +11,7 @@ HTMLAnchorElement.prototype.click = jest.fn()
 const mockFilesFilenameDownloadGet = jest.fn().mockResolvedValue(new Blob())
 
 // DefaultApiのモック
-jest.mock('../../openapi/client', () => ({
+jest.mock('../openapi/client', () => ({
   DefaultApi: jest.fn().mockImplementation(() => ({
     filesFilenameDownloadGet: mockFilesFilenameDownloadGet,
   })),

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import App from '.'
 import fetchMock from 'fetch-mock'
+import App from '../pages/fetch-test'
 
 describe('App', () => {
   afterEach(() => {
