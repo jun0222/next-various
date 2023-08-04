@@ -34,4 +34,51 @@ describe('ApiAddHeader', () => {
       }),
     )
   })
+
+  it('should have custom header middleware', async () => {
+    const middleware = configuration.middleware?.find((m) => m.pre)
+
+    // middlewareが存在することの確認
+    expect(middleware).toBeDefined()
+
+    if (middleware && middleware.pre) {
+      // 任意のコンテキストを作成してpre関数に渡す
+      const context = {
+        init: {},
+        url: 'http://example.com',
+        fetch: jest.fn(),
+      }
+
+      // pre関数を実行
+      const newContext = await middleware.pre(context)
+
+      // ヘッダーが正しく設定されていることの確認
+      expect(newContext.init.headers).toEqual({
+        'Custom-Header-middle': 'inMiddlewareHeader!!!!!!!!!!!!',
+      })
+    }
+  })
+
+  // エラーハンドリングをpostにpushして追加するhooksのテスト
+  //   it('should handle post middleware logic', async () => {
+  //     const middleware = configuration.middleware?.find(m => m.post);
+
+  //     expect(middleware).toBeDefined();
+
+  //     if (middleware && middleware.post) {
+  //       // 任意のコンテキストと応答を作成してpost関数に渡す
+  //       const context = {
+  //         init: {},
+  //         url: 'http://example.com',
+  //       };
+
+  //       const response = new Response();
+
+  //       // post関数を実行
+  //       const newContext = await middleware.post(context, response);
+
+  //       // エラーハンドリングや他のロジックが正しく動作するか確認
+  //       expect(newContext.init).toEqual(...); // 期待する結果に応じて
+  //     }
+  //   });
 })

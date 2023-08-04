@@ -3,9 +3,26 @@ import React, { useEffect, useState } from 'react'
 // ヘッダーを設定する
 export const configuration = new Configuration({
   basePath: 'http://localhost:3000/api',
+  // middlewareの方で設定されていると意味ない。テストコードは実際の動作を見ていないのでOKになる。実際にはapi呼び出しもテストすることになるのでOK
   headers: {
     'Custom-Header': 'HeaderValueeeeeeeeeeeeeeeeeeee!!!!!!!!!',
   },
+  middleware: [
+    {
+      pre: async (context) => {
+        const newContext = {
+          ...context,
+          init: {
+            ...context.init,
+            headers: {
+              'Custom-Header-middle': 'inMiddlewareHeader!!!!!!!!!!!!',
+            },
+          },
+        }
+        return newContext
+      },
+    },
+  ],
 })
 
 const ApiAddHeader = () => {
