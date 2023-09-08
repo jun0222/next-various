@@ -1,3 +1,4 @@
+// react-error-boundaryを使わないエラーバウンダリー、hooksが呼べない。
 // https://zenn.dev/longbridge/articles/0c7c9ce5c60487
 // https://marsquai.com/745ca65e-e38b-4a8e-8d59-55421be50f7e/f83dca4c-79db-4adf-b007-697c863b82a5/1df35b56-cba0-472f-8393-813e16a861c7/
 // Next.jsだとサーバー側に自動的にエラーを送信する、TypeScriptの場合はランタイムエラーをコンパイルエラーにするので検証時注意。
@@ -39,7 +40,14 @@ class ErrorBoundary extends React.Component<Props, State> {
       // const router = useRouter()
       // router.push('/_error')
 
-      return <h1>Something went wrong.</h1>
+      return (
+        <>
+          <h1>Something went wrong.</h1>
+          <p>
+            React標準のエラーバウンダリー（クラスコンポーネント）によるメッセージ
+          </p>
+        </>
+      )
     }
     return children
   }

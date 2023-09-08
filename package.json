@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prod": "next build && next start",
+    "prod": "echo '=============================' && echo '===※ソース変更時は再実行！===' && echo '=============================' && next build && next start",
     "check-types": "tsc --noEmit",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts {pages,components}/**/*",
     "lint:fix": "eslint \"{pages,components}/**/*.{ts,tsx}\" --fix",
@@ -40,7 +40,7 @@
     "react": "^18.2.0",
     "react-d3-tree": "^3.5.1",
     "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.10",
+    "react-error-boundary": "^4.0.11",
     "react-hook-form": "^7.43.9"
   },
   "devDependencies": {

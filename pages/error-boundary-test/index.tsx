@@ -1,3 +1,4 @@
+// react標準エラーバウンダリーを使う場合。通常は_app.tsxをラップする。
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 import Page1 from '@/components/ErrorBoundary/Page1'
 import Page2 from '@/components/ErrorBoundary/Page2'
