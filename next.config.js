@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   eslint: {
     dirs: ['src/components/', 'src/lib/', 'src/pages/'],
   },

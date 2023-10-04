@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import {
-  DragDropContext,
-  Droppable,
-  resetServerContext,
-} from 'react-beautiful-dnd'
+import { DragDropContext, resetServerContext } from 'react-beautiful-dnd'
 import { ItemType } from './types'
 import List from './List'
+import { StrictModeDroppable } from './StrictModeDroppable'
 
 const reorder = (
   list: ItemType[],
@@ -50,14 +47,14 @@ const App = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="list">
+      <StrictModeDroppable droppableId="list">
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             <List items={state.items} />
             {provided.placeholder}
           </div>
         )}
-      </Droppable>
+      </StrictModeDroppable>
     </DragDropContext>
   )
 }
