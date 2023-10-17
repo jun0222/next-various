@@ -7,7 +7,7 @@ import OpenApiClient from '../components/mswTest/OpenApiClient'
 
 // MSWのセットアップ
 const server = setupServer(
-  rest.get('http://localhost:3000/api/users/:userId', (req, res, ctx) => {
+  rest.get('http://api.example.com/v1/users/:userId', (req, res, ctx) => {
     return res(
       ctx.json({
         id: 1,

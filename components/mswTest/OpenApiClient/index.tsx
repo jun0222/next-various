@@ -2,9 +2,7 @@ import { Configuration, DefaultApi, User } from '../../../openapi/client'
 import React, { useEffect, useState } from 'react'
 
 const OpenApiClient: React.FC = () => {
-  const configuration = new Configuration({
-    basePath: 'http://localhost:3000/api',
-  })
+  const configuration = new Configuration()
   const [user, setUser] = useState<User | undefined>()
   const apiClient = new DefaultApi(configuration)
 
