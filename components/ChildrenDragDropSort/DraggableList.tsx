@@ -11,24 +11,29 @@ const DraggableList: React.FC<DraggableListProps> = ({ children }) => {
     <Droppable droppableId="droppable-list">
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
-          {React.Children.toArray(children).map((child, index) => (
-            <Draggable
-              key={index.toString()}
-              draggableId={index.toString()}
-              index={index}
-            >
-              {(provided) => (
-                <Box
-                  p={4}
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
+          {React.Children.toArray(children).map((child, index) => {
+            if (React.isValidElement(child)) {
+              return (
+                <Draggable
+                  key={child.props.id} // or child.key
+                  draggableId={child.props.id}
+                  index={index}
                 >
-                  {child}
-                </Box>
-              )}
-            </Draggable>
-          ))}
+                  {(provided) => (
+                    <Box
+                      p={4}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      {child}
+                    </Box>
+                  )}
+                </Draggable>
+              )
+            }
+            return null // or some fallback rendering
+          })}
           {provided.placeholder}
         </div>
       )}
