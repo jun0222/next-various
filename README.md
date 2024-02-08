@@ -13,6 +13,12 @@
   - [filedownload のテストコードを書くとき Error: Not implemented: navigation になる](#filedownload-のテストコードを書くとき-error-not-implemented-navigation-になる)
   - [expect(jest.fn()).toHaveBeenCalled()となり、mock が呼ばれずテストが失敗する](#expectjestfntohavebeencalledとなりmock-が呼ばれずテストが失敗する)
   - ['render()' によって返された型は、これらの型同士で互換性がありません。](#render-によって返された型はこれらの型同士で互換性がありません)
+- [storybook](#storybook)
+  - [構築コマンド](#構築コマンド)
+  - [公式チュートリアル](#公式チュートリアル)
+  - ['ComponentStoryFn' は非推奨です。ts(6385)](#componentstoryfn-は非推奨ですts6385)
+  - [...Default.args.task が undefined の可能性を推論されエラーになる](#defaultargstask-が-undefined-の可能性を推論されエラーになる)
+  - [Error: It looks like you are having a known issue with package hoisting.](#error-it-looks-like-you-are-having-a-known-issue-with-package-hoisting)
 
 <!-- /TOC -->
 
@@ -112,4 +118,45 @@ await waitFor(() => {
 # 以下で依存関係を解決すると解消
 yarn add @types/react
 yarn add @types/react-dom
+```
+
+# storybook
+
+## 構築コマンド
+
+```bash
+npx sb init
+```
+
+## 公式チュートリアル
+
+[React 向け Storybook のチュートリアル](https://storybook.js.org/tutorials/intro-to-storybook/react/ja/get-started/)
+
+## 'ComponentStoryFn' は非推奨です。ts(6385)
+
+StoryFn を使えば良い
+
+[参考](https://qiita.com/KokiSakano/items/a6e291b6292f025bd037)
+
+## ...Default.args.task が undefined の可能性を推論されエラーになる
+
+as で型を指定する
+
+## Error: It looks like you are having a known issue with package hoisting.
+
+```bash
+# npx sb init したときに表示
+
+Running Storybook
+yarn run v1.22.19
+$ storybook dev -p 6006 --initial-path=/onboarding --quiet
+🔴 Error: It looks like you are having a known issue with package hoisting.
+Please check the following issue for details and solutions: https://github.com/storybookjs/storybook/issues/22431#issuecomment-1630086092
+```
+
+```bash
+# 以下で解消
+# 依存関係を再インストール
+rm -rf node_modules yarn.lock
+yarn install
 ```
