@@ -1,5 +1,5 @@
 import React from 'react'
-import Task from './Task' // TaskPropsをインポート
+import Task from '../components/Task'
 import { StoryFn, Meta } from '@storybook/react'
 
 export default {

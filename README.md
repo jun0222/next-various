@@ -14,6 +14,7 @@
   - [expect(jest.fn()).toHaveBeenCalled()となり、mock が呼ばれずテストが失敗する](#expectjestfntohavebeencalledとなりmock-が呼ばれずテストが失敗する)
   - ['render()' によって返された型は、これらの型同士で互換性がありません。](#render-によって返された型はこれらの型同士で互換性がありません)
 - [storybook](#storybook)
+  - [起動コマンド](#起動コマンド)
   - [構築コマンド](#構築コマンド)
   - [公式チュートリアル](#公式チュートリアル)
   - ['ComponentStoryFn' は非推奨です。ts(6385)](#componentstoryfn-は非推奨ですts6385)
@@ -121,6 +122,12 @@ yarn add @types/react-dom
 ```
 
 # storybook
+
+## 起動コマンド
+
+```bash
+yarn storybook
+```
 
 ## 構築コマンド
 
