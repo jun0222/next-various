@@ -1,4 +1,3 @@
-// HeaderMenuStyled.tsx
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -15,8 +14,10 @@ const NavLink = styled.a`
   color: white;
   text-decoration: none;
   margin-right: 20px;
+  outline: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: underline;
   }
 `
@@ -35,7 +36,8 @@ const DropdownMenu = styled.div`
   padding: 12px 16px;
   z-index: 1;
 
-  ${MenuContainer}:hover & {
+  ${MenuContainer}:hover &,
+  ${MenuContainer}:focus-within & {
     display: block;
   }
 
@@ -45,7 +47,8 @@ const DropdownMenu = styled.div`
     text-decoration: none;
     display: block;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: #f1f1f1;
     }
   }
@@ -58,11 +61,19 @@ const HeaderMenuStyled: React.FC = () => {
       <div>
         <NavLink href="#simple-link">Simple Link</NavLink>
         <MenuContainer>
-          <NavLink href="#">Hover for Menu</NavLink>
+          <NavLink href="#" aria-haspopup="true" aria-expanded="false">
+            Hover for Menu
+          </NavLink>
           <DropdownMenu>
-            <a href="#">Profile</a>
-            <a href="#">My Account</a>
-            <a href="#">Logout</a>
+            <a href="#" tabIndex={0}>
+              Profile
+            </a>
+            <a href="#" tabIndex={0}>
+              My Account
+            </a>
+            <a href="#" tabIndex={0}>
+              Logout
+            </a>
           </DropdownMenu>
         </MenuContainer>
       </div>
