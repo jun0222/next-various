@@ -164,6 +164,5 @@ Please check the following issue for details and solutions: https://github.com/s
 ```bash
 # 以下で解消
 # 依存関係を再インストール
-rm -rf node_modules yarn.lock
-yarn install
+rm -rf node_modules yarn.lock && yarn install
 ```
