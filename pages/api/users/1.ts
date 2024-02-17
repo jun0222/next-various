@@ -1,6 +1,6 @@
 export default (req: any, res: any) => {
   // リクエストヘッダーをログに出力
-  console.log('Request Headers:', req.headers)
+  // console.log('Request Headers:', req.headers)
 
   // ユーザーのデータを定義
   const user = {

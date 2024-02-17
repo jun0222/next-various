@@ -20,7 +20,7 @@ export const App = () => {
     0,
   )
 
-  console.log(totalScore)
+  // console.log(totalScore)
 
   return <div>{totalScore}</div>
 }

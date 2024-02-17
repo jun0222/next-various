@@ -5,6 +5,6 @@ export const usuallyValue = boolValue + '1' // ここが違う。もっと依存
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const getBool = boolValue ? 'true' : 'false'
-  console.log(boolValue)
+  // console.log(boolValue)
   res.status(200).json({ bool: getBool })
 }

@@ -37,7 +37,7 @@ const ApiAddHeader = () => {
       // エンドポイントに対応する関数を呼び出す（この例では `getSomething` と仮定）
       const response = await apiClient.usersUserIdGet({ userId: '1' })
       setUser(response)
-      console.log(response)
+      // console.log(response)
     } catch (error) {
       console.error(error)
     }
