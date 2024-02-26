@@ -27,6 +27,8 @@ const MenuContainer = styled.div`
   display: inline-block;
 `
 
+// ${MenuContainer}:focus & { ではうまく動かない
+// ${MenuContainer}:focus-within & { でうまく動く
 const DropdownMenu = styled.div`
   display: none;
   position: absolute;
@@ -64,16 +66,24 @@ const HeaderMenuStyled: React.FC = () => {
           <NavLink href="#" aria-haspopup="true" aria-expanded="false">
             Hover for Menu
           </NavLink>
-          <DropdownMenu>
-            <a href="#" tabIndex={0}>
-              Profile
-            </a>
-            <a href="#" tabIndex={0}>
-              My Account
-            </a>
-            <a href="#" tabIndex={0}>
-              Logout
-            </a>
+          <DropdownMenu tabIndex={0}>
+            <ul>
+              <li>
+                <a href="#" tabIndex={0}>
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a href="#" tabIndex={0}>
+                  My Account
+                </a>
+              </li>
+              <li>
+                <a href="#" tabIndex={0}>
+                  Logout
+                </a>
+              </li>
+            </ul>
           </DropdownMenu>
         </MenuContainer>
       </div>
