@@ -1,3 +1,4 @@
+// 参考： https://www.ag-grid.com/react-data-grid/column-definitions/
 // Reactライブラリをインポートしています。これにより、Reactコンポーネントを作成するための機能が利用可能になります。
 import React, { useState } from 'react'
 // ag-Grid Reactコンポーネントをインポートしています。これを使用して、グリッドをReactアプリケーションに組み込むことができます。
@@ -11,8 +12,12 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'
 const AgGridExample = () => {
   // グリッドの列を定義する配列です。各列にはヘッダー名（headerName）と、その列に対応するデータのフィールド名（field）が指定されています。
   const [columnDefs, setColumnDefs] = useState([
-    { headerName: 'ID', field: 'id' }, // 1列目は"ID"という名前で、データオブジェクトの"id"フィールドの値を表示します。
-    { headerName: 'Value', field: 'value' }, // 2列目は"Value"という名前で、データオブジェクトの"value"フィールドの値を表示します。
+    // { headerName: 'ID', field: 'id' }, // 1列目は"ID"という名前で、データオブジェクトの"id"フィールドの値を表示します。
+    // { headerName: 'Value', field: 'value' }, // 2列目は"Value"という名前で、データオブジェクトの"value"フィールドの値を表示します。
+    {
+      headerName: 'Group A',
+      children: [{ field: 'id' }, { field: 'value' }],
+    },
   ])
 
   // グリッドに表示する行のデータを定義する配列です。各オブジェクトは一行のデータを表し、"id"と"value"のキーを持っています。
